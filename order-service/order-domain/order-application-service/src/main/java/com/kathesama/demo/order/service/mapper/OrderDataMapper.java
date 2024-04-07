@@ -12,6 +12,7 @@ import com.kathesama.demo.order.service.domain.valueobject.StreetAddress;
 import com.kathesama.demo.order.service.dto.create.CreateOrderCommand;
 import com.kathesama.demo.order.service.dto.create.CreateOrderResponse;
 import com.kathesama.demo.order.service.dto.create.OrderAddress;
+import com.kathesama.demo.order.service.dto.track.TrackOrderResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -41,10 +42,19 @@ public class OrderDataMapper {
                 .build();
     }
 
-    public CreateOrderResponse orderToCreateOrderResponse(Order order) {
+    public CreateOrderResponse orderToCreateOrderResponse(Order order, String message) {
         return CreateOrderResponse.builder()
                 .orderTrackingId(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
+                .message(message)
+                .build();
+    }
+
+    public TrackOrderResponse orderToTrackOrderResponse(Order order) {
+        return TrackOrderResponse.builder()
+                .orderTrackingId(order.getTrackingId().getValue())
+                .orderStatus(order.getOrderStatus())
+                .failureMessages(order.getFailureMessages())
                 .build();
     }
 

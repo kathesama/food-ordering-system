@@ -1,18 +1,10 @@
 package com.kathesama.demo.order.service;
 
-import com.kathesama.demo.order.service.domain.OrderDomainService;
-import com.kathesama.demo.order.service.domain.entity.Customer;
-import com.kathesama.demo.order.service.domain.entity.Order;
-import com.kathesama.demo.order.service.domain.entity.Restaurant;
 import com.kathesama.demo.order.service.domain.events.OrderCreatedEvent;
-import com.kathesama.demo.order.service.domain.exceptions.OrderDomainException;
 import com.kathesama.demo.order.service.dto.create.CreateOrderCommand;
 import com.kathesama.demo.order.service.dto.create.CreateOrderResponse;
 import com.kathesama.demo.order.service.mapper.OrderDataMapper;
 import com.kathesama.demo.order.service.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessage;
-import com.kathesama.demo.order.service.ports.output.repository.CustomerRepository;
-import com.kathesama.demo.order.service.ports.output.repository.OrderRepository;
-import com.kathesama.demo.order.service.ports.output.repository.RestaurantRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +35,7 @@ public class OrderCreateCommandHandler {
 
         log.info("Order is created with id: {}", orderCreatedEvent.getOrder().getId().getValue());
         orderCreatedPaymentRequestMessage.publish(orderCreatedEvent);
-        return orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder());
+        return orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder(),
+                "Order created successfully");
     }
 }
